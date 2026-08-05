@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "../lib/i18n/LanguageProvider";
 
 type StatItemProps = {
   value: string;
@@ -50,14 +51,16 @@ function StatItem({ value, label, suffix = "" }: StatItemProps) {
   );
 }
 
-const stats = [
-  { value: "6", label: "Platforms", suffix: "+" },
-  { value: "3", label: "Awards", suffix: "" },
-  { value: "50", label: "Hospitals", suffix: "+" },
-  { value: "10", label: "Years Experience", suffix: "+" },
-];
-
 export default function StatsBar() {
+  const { t } = useLanguage();
+
+  const stats = [
+    { value: "6", label: t.stats.platforms, suffix: "+" },
+    { value: "3", label: t.stats.awards, suffix: "" },
+    { value: "50", label: t.stats.hospitals, suffix: "+" },
+    { value: "10", label: t.stats.years, suffix: "+" },
+  ];
+
   return (
     <section className="relative py-14 overflow-hidden">
       <div className="absolute inset-0 stats-bg" />

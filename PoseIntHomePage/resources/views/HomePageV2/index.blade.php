@@ -150,7 +150,7 @@
 
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
-                <h2>Pose Intelligence</h2>
+                <h2>Pose Intelligence {{ $test['yes'] }}</h2>
                 <p>Projects<br></p>
             </div><!-- End Section Title -->
 

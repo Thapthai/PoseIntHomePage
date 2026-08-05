@@ -3,29 +3,34 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CloseIcon, MenuIcon } from "./icons";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useLanguage } from "../lib/i18n/LanguageProvider";
 
-const navItems = [
-  { href: "#hero", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#awards", label: "Awards" },
-  { href: "#project", label: "Project" },
-  { href: "#contact", label: "Contact" },
-];
+const navHrefs = ["#hero", "#about", "#awards", "#project", "#contact"] as const;
 
 export default function Header() {
+  const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("#hero");
+
+  const navItems = [
+    { href: "#hero", label: t.nav.home },
+    { href: "#about", label: t.nav.about },
+    { href: "#awards", label: t.nav.awards },
+    { href: "#project", label: t.nav.project },
+    { href: "#contact", label: t.nav.contact },
+  ];
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 60);
 
       const scrollPos = window.scrollY + 200;
-      for (const item of [...navItems].reverse()) {
-        const section = document.querySelector(item.href);
+      for (const href of [...navHrefs].reverse()) {
+        const section = document.querySelector(href);
         if (section && scrollPos >= (section as HTMLElement).offsetTop) {
-          setActiveHash(item.href);
+          setActiveHash(href);
           break;
         }
       }
@@ -63,12 +68,18 @@ export default function Header() {
           />
         </Link>
 
+        {!mobileOpen && (
+          <div className="xl:hidden mr-3">
+            <LanguageSwitcher compact />
+          </div>
+        )}
+
         <button
           type="button"
           className={`xl:hidden cursor-pointer transition-colors ${
             mobileOpen ? "fixed top-5 right-5 z-[9999] text-white" : "text-white"
           }`}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-label={mobileOpen ? t.nav.closeMenu : t.nav.openMenu}
           onClick={() => setMobileOpen((open) => !open)}
         >
           {mobileOpen ? <CloseIcon /> : <MenuIcon />}
@@ -78,7 +89,7 @@ export default function Header() {
           className={`font-nav ${
             mobileOpen
               ? "fixed inset-0 z-[9998] bg-[rgba(44,94,173,0.96)] backdrop-blur-md flex items-center justify-center px-5"
-              : "hidden xl:block"
+              : "hidden xl:flex xl:items-center"
           }`}
         >
           <ul
@@ -117,7 +128,17 @@ export default function Header() {
                 </li>
               );
             })}
+            {mobileOpen && (
+              <li className="mt-6">
+                <LanguageSwitcher />
+              </li>
+            )}
           </ul>
+          {!mobileOpen && (
+            <div className="ml-3">
+              <LanguageSwitcher />
+            </div>
+          )}
         </nav>
       </div>
     </header>

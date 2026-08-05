@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+
+
     public function index()
     {
 
@@ -27,14 +29,14 @@ class HomeController extends Controller
             $visit->ip_address = $userIp;
             $visit->save();
         }
-
+        $this->about();
 
         $projects = Projects::where('status', 'Active')->get();
-        $awards = Awards::where('status', 'Active')->get();
+        $awards = Awards::where('status', 'Active')->get();    
 
         return view('HomePageV2.index', compact(
             'projects',
-            'awards'
+            'awards',
         ));
     }
 
