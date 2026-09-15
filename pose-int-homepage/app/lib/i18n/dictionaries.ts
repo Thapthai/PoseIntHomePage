@@ -25,6 +25,18 @@ export type Dictionary = {
     scroll: string;
     techTags: string[];
   };
+  heroV2: {
+    eyebrow: string;
+    title: string;
+    hotelTitle: string;
+    hotelDesc: string;
+    hotelCta: string;
+    hospitalTitle: string;
+    hospitalDesc: string;
+    hospitalCta: string;
+    website: string;
+    phone: string;
+  };
   stats: {
     platforms: string;
     awards: string;
@@ -112,6 +124,18 @@ export const dictionaries: Record<Locale, Dictionary> = {
       watchVideo: "ดูวิดีโอ",
       scroll: "เลื่อนลง",
       techTags: ["RFID Tracking", "UV Laser Marking", "Smart Hospital", "IoT Healthcare"],
+    },
+    heroV2: {
+      eyebrow: "RFID • IoT • SOFTWARE",
+      title: "เทคโนโลยีสำหรับ โรงแรม และโรงพยาบาล",
+      hotelTitle: "Hotel",
+      hotelDesc: "ระบบ RFID ตรวจนับและติดตามผ้าโรงแรม",
+      hotelCta: "ดูระบบสำหรับโรงแรม",
+      hospitalTitle: "Hospital",
+      hospitalDesc: "ระบบ RFID, IoT และซอฟต์แวร์สำหรับโรงพยาบาล",
+      hospitalCta: "ดูระบบสำหรับโรงพยาบาล",
+      website: "www.poseintelligence.com",
+      phone: "+66 63 190 9768",
     },
     stats: {
       platforms: "แพลตฟอร์ม",
@@ -248,6 +272,18 @@ export const dictionaries: Record<Locale, Dictionary> = {
       watchVideo: "Watch Video",
       scroll: "Scroll",
       techTags: ["RFID Tracking", "UV Laser Marking", "Smart Hospital", "IoT Healthcare"],
+    },
+    heroV2: {
+      eyebrow: "RFID • IoT • SOFTWARE",
+      title: "Technology for Hotels and Hospitals",
+      hotelTitle: "Hotel",
+      hotelDesc: "RFID system for counting and tracking hotel linens",
+      hotelCta: "View hotel solutions",
+      hospitalTitle: "Hospital",
+      hospitalDesc: "RFID, IoT, and software systems for hospitals",
+      hospitalCta: "View hospital solutions",
+      website: "www.poseintelligence.com",
+      phone: "+66 63 190 9768",
     },
     stats: {
       platforms: "Platforms",

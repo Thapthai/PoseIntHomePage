@@ -1,0 +1,10 @@
+export { default as HotelBenefits } from "./HotelBenefits";
+export { default as HotelContact } from "./HotelContact";
+export { default as HotelCustomize } from "./HotelCustomize";
+export { default as HotelData } from "./HotelData";
+export { default as HotelFaq } from "./HotelFaq";
+export { default as HotelFooter } from "./HotelFooter";
+export { default as HotelHeader } from "./HotelHeader";
+export { default as HotelHero } from "./HotelHero";
+export { default as HotelOptions } from "./HotelOptions";
+export { default as HotelProcess } from "./HotelProcess";

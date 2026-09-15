@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "@fontsource-variable/noto-sans-thai/wght.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import { LanguageProvider } from "./lib/i18n/LanguageProvider";
 import "./globals.css";
 
@@ -23,11 +21,7 @@ export default function RootLayout({
   return (
     <html lang="th" suppressHydrationWarning>
       <body className="antialiased" suppressHydrationWarning>
-        <LanguageProvider>
-          <Header />
-          {children}
-          <Footer />
-        </LanguageProvider>
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

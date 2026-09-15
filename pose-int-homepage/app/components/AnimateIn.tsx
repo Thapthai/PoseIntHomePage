@@ -7,6 +7,8 @@ type AnimateInProps = {
   className?: string;
   delay?: number;
   direction?: "up" | "left" | "right" | "none";
+  /** Softer, slower reveal (used on /hotel) */
+  soft?: boolean;
 };
 
 function isInViewport(el: HTMLElement): boolean {
@@ -20,6 +22,7 @@ export default function AnimateIn({
   className = "",
   delay = 0,
   direction = "up",
+  soft = false,
 }: AnimateInProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -50,7 +53,10 @@ export default function AnimateIn({
         ([entry]) => {
           if (entry.isIntersecting) reveal();
         },
-        { threshold: 0.01, rootMargin: "0px 0px -20px 0px" }
+        {
+          threshold: soft ? 0.12 : 0.01,
+          rootMargin: soft ? "0px 0px -10% 0px" : "0px 0px -20px 0px",
+        }
       );
       observer.observe(el);
     };
@@ -59,7 +65,6 @@ export default function AnimateIn({
       setupObserver();
     }
 
-    // Re-check after scroll restoration (browser back + hash e.g. /#awards)
     const retryTimers = [50, 150, 350, 600].map((ms) =>
       window.setTimeout(() => {
         if (tryReveal()) return;
@@ -85,20 +90,21 @@ export default function AnimateIn({
       window.removeEventListener("pageshow", onPageShow);
       window.removeEventListener("popstate", onPopState);
     };
-  }, []);
+  }, [soft]);
 
-  const hiddenTransform = {
-    up: "translate-y-10",
-    left: "-translate-x-10",
-    right: "translate-x-10",
-    none: "",
-  }[direction];
+  const distance = soft
+    ? { up: "translate-y-5", left: "-translate-x-5", right: "translate-x-5", none: "" }
+    : { up: "translate-y-10", left: "-translate-x-10", right: "translate-x-10", none: "" };
 
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        visible ? "opacity-100 translate-x-0 translate-y-0" : `opacity-0 ${hiddenTransform}`
+      className={`transition-[opacity,transform] ${
+        soft
+          ? "duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+          : "duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+      } ${
+        visible ? "opacity-100 translate-x-0 translate-y-0" : `opacity-0 ${distance[direction]}`
       } ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >

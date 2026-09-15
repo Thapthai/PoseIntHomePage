@@ -3,17 +3,30 @@
 import { useLanguage } from "../lib/i18n/LanguageProvider";
 import type { Locale } from "../lib/i18n/dictionaries";
 
-export default function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
-  const { locale, setLocale, t } = useLanguage();
+type LanguageSwitcherProps = {
+  compact?: boolean;
+  /** light = dark text on white bg; dark = white text on dark/glass header */
+  variant?: "light" | "dark";
+};
 
+export default function LanguageSwitcher({
+  compact = false,
+  variant = "dark",
+}: LanguageSwitcherProps) {
+  const { locale, setLocale, t } = useLanguage();
   const options: Locale[] = ["th", "en"];
+  const isLight = variant === "light";
 
   return (
     <div
       role="group"
       aria-label={t.lang.switchTo}
-      className={`inline-flex items-center rounded-full border border-white/25 bg-white/10 p-0.5 backdrop-blur-sm ${
+      className={`inline-flex items-center rounded-full p-0.5 ${
         compact ? "text-[11px]" : "text-xs"
+      } ${
+        isLight
+          ? "border border-slate-200 bg-slate-50"
+          : "border border-white/25 bg-white/10 backdrop-blur-sm"
       }`}
     >
       {options.map((code) => {
@@ -27,7 +40,9 @@ export default function LanguageSwitcher({ compact = false }: { compact?: boolea
             className={`min-w-[2.25rem] rounded-full px-2.5 py-1 font-semibold tracking-wide transition-all duration-300 cursor-pointer ${
               active
                 ? "bg-accent text-white shadow-sm"
-                : "text-white/70 hover:text-white"
+                : isLight
+                  ? "text-slate-500 hover:text-heading"
+                  : "text-white/70 hover:text-white"
             }`}
           >
             {t.lang[code]}

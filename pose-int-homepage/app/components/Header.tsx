@@ -22,6 +22,8 @@ export default function Header() {
     { href: "#contact", label: t.nav.contact },
   ];
 
+  const light = !scrolled;
+
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 60);
@@ -56,7 +58,7 @@ export default function Header() {
       className={`fixed top-0 left-0 right-0 z-[997] transition-all duration-500 ${
         scrolled
           ? "py-3 glass-dark shadow-[0_4px_30px_rgba(0,0,0,0.15)]"
-          : "py-5 bg-transparent"
+          : "py-5 bg-white/80 backdrop-blur-md border-b border-slate-100/80"
       }`}
     >
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 flex items-center relative">
@@ -70,14 +72,18 @@ export default function Header() {
 
         {!mobileOpen && (
           <div className="xl:hidden mr-3">
-            <LanguageSwitcher compact />
+            <LanguageSwitcher compact variant={light ? "light" : "dark"} />
           </div>
         )}
 
         <button
           type="button"
           className={`xl:hidden cursor-pointer transition-colors ${
-            mobileOpen ? "fixed top-5 right-5 z-[9999] text-white" : "text-white"
+            mobileOpen
+              ? "fixed top-5 right-5 z-[9999] text-white"
+              : light
+                ? "text-heading"
+                : "text-white"
           }`}
           aria-label={mobileOpen ? t.nav.closeMenu : t.nav.openMenu}
           onClick={() => setMobileOpen((open) => !open)}
@@ -114,9 +120,13 @@ export default function Header() {
                               : "text-white/80 hover:text-accent hover:bg-white/5"
                           }`
                         : `px-4 py-2 ${
-                            isActive
-                              ? "text-white bg-white/10"
-                              : "text-white/70 hover:text-white hover:bg-white/5"
+                            light
+                              ? isActive
+                                ? "text-heading bg-slate-100"
+                                : "text-body/70 hover:text-heading hover:bg-slate-50"
+                              : isActive
+                                ? "text-white bg-white/10"
+                                : "text-white/70 hover:text-white hover:bg-white/5"
                           }`
                     }`}
                   >
@@ -136,7 +146,7 @@ export default function Header() {
           </ul>
           {!mobileOpen && (
             <div className="ml-3">
-              <LanguageSwitcher />
+              <LanguageSwitcher variant={light ? "light" : "dark"} />
             </div>
           )}
         </nav>
