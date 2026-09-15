@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "./hotel.css";
 
 export const metadata: Metadata = {
   title: "RFID Hotel Linen Management System | Pose Intelligence",
