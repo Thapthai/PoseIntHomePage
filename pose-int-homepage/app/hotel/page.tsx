@@ -1,6 +1,5 @@
 ﻿"use client";
 
-import { useEffect, useState } from "react";
 import {
   HotelBenefits,
   HotelContact,
@@ -12,17 +11,15 @@ import {
   HotelHero,
   HotelOptions,
   HotelProcess,
+  HotelScrollTop,
 } from "./components";
-import { hotelCopy, type Language } from "./hotel-copy";
+import { hotelCopy } from "./hotel-copy";
+import { useLanguage } from "../lib/i18n/LanguageProvider";
 
 export default function HotelPage() {
-  const [language, setLanguage] = useState<Language>("th");
-  const t = hotelCopy[language];
-  const section = { language, t };
-
-  useEffect(() => {
-    document.documentElement.lang = language;
-  }, [language]);
+  const { locale, setLocale } = useLanguage();
+  const t = hotelCopy[locale];
+  const section = { language: locale, t };
 
   return (
     <div className="hotel-page">
@@ -30,7 +27,7 @@ export default function HotelPage() {
         {t.skip}
       </a>
 
-      <HotelHeader {...section} onLanguageChange={setLanguage} />
+      <HotelHeader {...section} onLanguageChange={setLocale} />
 
       <main>
         <HotelHero {...section} />
@@ -44,6 +41,7 @@ export default function HotelPage() {
       </main>
 
       <HotelFooter />
+      <HotelScrollTop label={locale === "th" ? "กลับขึ้นด้านบน" : "Scroll to top"} />
     </div>
   );
 }

@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import "@fontsource-variable/noto-sans-thai/wght.css";
 import { LanguageProvider } from "./lib/i18n/LanguageProvider";
+import {
+  defaultLocale,
+  LOCALE_COOKIE_KEY,
+  parseLocale,
+} from "./lib/i18n/dictionaries";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,15 +19,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jar = await cookies();
+  const locale = parseLocale(jar.get(LOCALE_COOKIE_KEY)?.value ?? defaultLocale);
+
   return (
-    <html lang="th" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className="antialiased" suppressHydrationWarning>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider initialLocale={locale}>{children}</LanguageProvider>
       </body>
     </html>
   );

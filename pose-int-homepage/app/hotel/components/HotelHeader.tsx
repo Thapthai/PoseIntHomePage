@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { type HotelSectionProps, type Language } from "../hotel-copy";
 
-const navTargets = ["#hotel", "#process", "/", "#contact"];
+const navTargets = ["#hotel", "#process", "/hospital", "#contact"];
 
 type HotelHeaderProps = HotelSectionProps & {
   onLanguageChange: (lang: Language) => void;
@@ -24,7 +24,7 @@ export default function HotelHeader({ language, t, onLanguageChange }: HotelHead
   return (
     <header className="hotel-header">
       <div className="hotel-container hotel-nav-row">
-        <a className="hotel-logo" href="#hotel" aria-label="POSE INTELLIGENCE">
+        <a className="hotel-logo" href="/" aria-label="POSE INTELLIGENCE">
           <img src="/hotel/pose-logo.jpg" alt="POSE INTELLIGENCE" width="1320" height="827" />
         </a>
 

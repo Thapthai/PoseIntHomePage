@@ -11,6 +11,7 @@ import {
 import {
   defaultLocale,
   dictionaries,
+  LOCALE_COOKIE_KEY,
   LOCALE_STORAGE_KEY,
   type Dictionary,
   type Locale,
@@ -24,25 +25,44 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-function readStoredLocale(): Locale {
-  if (typeof window === "undefined") return defaultLocale;
+function readLocalStorageLocale(): Locale | null {
+  if (typeof window === "undefined") return null;
   const stored = window.localStorage.getItem(LOCALE_STORAGE_KEY);
   if (stored === "th" || stored === "en") return stored;
-  return defaultLocale;
+  return null;
 }
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(defaultLocale);
+function persistLocale(next: Locale) {
+  window.localStorage.setItem(LOCALE_STORAGE_KEY, next);
+  document.cookie = `${LOCALE_COOKIE_KEY}=${next};path=/;max-age=31536000;SameSite=Lax`;
+}
+
+export function LanguageProvider({
+  children,
+  initialLocale = defaultLocale,
+}: {
+  children: ReactNode;
+  initialLocale?: Locale;
+}) {
+  const [locale, setLocaleState] = useState<Locale>(initialLocale);
 
   useEffect(() => {
-    const next = readStoredLocale();
-    setLocaleState(next);
-    document.documentElement.lang = next;
-  }, []);
+    // One-time migrate: older visits stored EN only in localStorage.
+    const fromStorage = readLocalStorageLocale();
+    if (fromStorage && fromStorage !== initialLocale) {
+      setLocaleState(fromStorage);
+      persistLocale(fromStorage);
+      document.documentElement.lang = fromStorage;
+      return;
+    }
+
+    persistLocale(initialLocale);
+    document.documentElement.lang = initialLocale;
+  }, [initialLocale]);
 
   const setLocale = useCallback((next: Locale) => {
     setLocaleState(next);
-    window.localStorage.setItem(LOCALE_STORAGE_KEY, next);
+    persistLocale(next);
     document.documentElement.lang = next;
   }, []);
 

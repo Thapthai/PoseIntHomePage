@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "./hotel/hotel.css";
 
 @theme inline {
   --color-primary-deep: #2c5ead;

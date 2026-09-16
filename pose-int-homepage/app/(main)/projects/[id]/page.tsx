@@ -38,7 +38,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         <div className="absolute inset-0 bg-gradient-to-br from-[#2C5EAD]/85 via-[#1591DC]/75 to-[#4BB8FA]/70" />
         <div className="relative max-w-[1320px] mx-auto px-4 sm:px-6">
           <Link
-            href="/#project"
+            href="/hospital#project"
             className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors mb-6"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden>

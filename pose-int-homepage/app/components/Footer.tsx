@@ -77,10 +77,10 @@ export default function Footer() {
                 </p>
                 <p>
                   <a
-                    href="mailto:posehealthcare.olm@gmail.com"
+                    href="mailto:poseintelligence@gmail.com"
                     className="hover:text-accent transition-colors"
                   >
-                    posehealthcare.olm@gmail.com
+                    poseintelligence@gmail.com
                   </a>
                 </p>
               </div>

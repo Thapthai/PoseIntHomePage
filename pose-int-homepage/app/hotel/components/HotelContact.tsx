@@ -25,7 +25,7 @@ export default function HotelContact({ t }: HotelSectionProps) {
                 <div>
                   <span className="hotel-contact-label">{t.emailLabel}</span>
                   <a href="mailto:posehealthcare@gmail.com">posehealthcare@gmail.com</a>
-                  <a href="mailto:posehealthcare.olm@gmail.com">posehealthcare.olm@gmail.com</a>
+                  <a href="mailto:poseintelligence@gmail.com">poseintelligence@gmail.com</a>
                 </div>
               </div>
             </div>

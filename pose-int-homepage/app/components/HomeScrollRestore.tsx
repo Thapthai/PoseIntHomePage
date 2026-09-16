@@ -7,7 +7,7 @@ export default function HomeScrollRestore() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname !== "/") return;
+    if (pathname !== "/" && pathname !== "/hospital") return;
 
     const hash = window.location.hash;
     if (!hash) return;

@@ -1,35 +1,46 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CloseIcon, MenuIcon } from "./icons";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n/LanguageProvider";
 
-const navHrefs = ["#hero", "#about", "#awards", "#project", "#contact"] as const;
+const sectionHashes = ["#hero", "#about", "#awards", "#project", "#contact"] as const;
 
 export default function Header() {
   const { t } = useLanguage();
+  const pathname = usePathname();
+  const onHospital = pathname === "/hospital";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("#hero");
 
+  const sectionHref = (hash: string) => (onHospital ? hash : `/hospital${hash}`);
+
   const navItems = [
-    { href: "#hero", label: t.nav.home },
-    { href: "#about", label: t.nav.about },
-    { href: "#awards", label: t.nav.awards },
-    { href: "#project", label: t.nav.project },
-    { href: "#contact", label: t.nav.contact },
+    { href: onHospital ? "#hero" : "/", label: t.nav.home, hash: "#hero" },
+    { href: sectionHref("#about"), label: t.nav.about, hash: "#about" },
+    { href: sectionHref("#awards"), label: t.nav.awards, hash: "#awards" },
+    { href: sectionHref("#project"), label: t.nav.project, hash: "#project" },
+    { href: sectionHref("#contact"), label: t.nav.contact, hash: "#contact" },
   ];
 
-  const light = !scrolled;
+  // Hospital navbar stays solid #DFEDFA with dark text
+  const light = onHospital || !scrolled;
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 60);
 
+      if (!onHospital) {
+        setActiveHash(pathname === "/" ? "#hero" : "");
+        return;
+      }
+
       const scrollPos = window.scrollY + 200;
-      for (const href of [...navHrefs].reverse()) {
+      for (const href of [...sectionHashes].reverse()) {
         const section = document.querySelector(href);
         if (section && scrollPos >= (section as HTMLElement).offsetTop) {
           setActiveHash(href);
@@ -41,7 +52,7 @@ export default function Header() {
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [onHospital, pathname]);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -52,15 +63,18 @@ export default function Header() {
 
   const closeMobile = () => setMobileOpen(false);
 
-  return (
-    <header
-      id="header"
-      className={`fixed top-0 left-0 right-0 z-[997] transition-all duration-500 ${
+  const headerClass = onHospital
+    ? `fixed top-0 left-0 right-0 z-[997] transition-all duration-500 bg-[#DFEDFA] ${
+        scrolled ? "py-3 shadow-[0_2px_12px_rgba(44,94,173,0.08)]" : "py-5"
+      }`
+    : `fixed top-0 left-0 right-0 z-[997] transition-all duration-500 ${
         scrolled
           ? "py-3 glass-dark shadow-[0_4px_30px_rgba(0,0,0,0.15)]"
           : "py-5 bg-white/80 backdrop-blur-md border-b border-slate-100/80"
-      }`}
-    >
+      }`;
+
+  return (
+    <header id="header" className={headerClass}>
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 flex items-center relative">
         <Link href="/" className="flex items-center mr-auto shrink-0 group">
           <img
@@ -106,9 +120,13 @@ export default function Header() {
             }
           >
             {navItems.map((item) => {
-              const isActive = activeHash === item.href;
+              const isActive = onHospital
+                ? activeHash === item.hash
+                : item.hash === "#hero"
+                  ? pathname === "/"
+                  : false;
               return (
-                <li key={item.href}>
+                <li key={item.hash}>
                   <a
                     href={item.href}
                     onClick={closeMobile}
@@ -122,8 +140,8 @@ export default function Header() {
                         : `px-4 py-2 ${
                             light
                               ? isActive
-                                ? "text-heading bg-slate-100"
-                                : "text-body/70 hover:text-heading hover:bg-slate-50"
+                                ? "text-heading bg-white/70"
+                                : "text-body/70 hover:text-heading hover:bg-white/50"
                               : isActive
                                 ? "text-white bg-white/10"
                                 : "text-white/70 hover:text-white hover:bg-white/5"

@@ -3,6 +3,11 @@ export type Locale = "th" | "en";
 export const locales: Locale[] = ["th", "en"];
 export const defaultLocale: Locale = "th";
 export const LOCALE_STORAGE_KEY = "pose-locale";
+export const LOCALE_COOKIE_KEY = "pose-locale";
+
+export function parseLocale(value: string | null | undefined): Locale {
+  return value === "th" || value === "en" ? value : defaultLocale;
+}
 
 export type Dictionary = {
   nav: {

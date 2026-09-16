@@ -11,5 +11,10 @@ export default function HotelLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return children;
+  return (
+    <>
+      <link rel="stylesheet" href="/hotel/hotel.css" />
+      {children}
+    </>
+  );
 }

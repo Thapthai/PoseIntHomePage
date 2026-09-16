@@ -8,3 +8,4 @@ export { default as HotelHeader } from "./HotelHeader";
 export { default as HotelHero } from "./HotelHero";
 export { default as HotelOptions } from "./HotelOptions";
 export { default as HotelProcess } from "./HotelProcess";
+export { default as HotelScrollTop } from "./HotelScrollTop";
